@@ -25,7 +25,5 @@ function initShaders(webgl, VS_SOURCE, FS_SOURCE) {
     webgl.attachShader(shaderProgram, FS);
     webgl.linkProgram(shaderProgram);
     webgl.useProgram(shaderProgram);
-    if (!webgl.getProgramParameter(shaderProgram, webgl.LINK_STATUS)) {
-        alert("Unable to initialize the shader program.");
-    }
+   
 }
