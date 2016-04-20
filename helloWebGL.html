@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>WebGL hello</title>
+	<script src="js/WebGL_lib.js"></script>
+</head>
+<body>
+	<canvas id="mycanvas" width="580" height="300"></canvas>
+	<script>
+
+	var mycanvas = document.getElementById("mycanvas");
+	var webgl = getWebGLContext(mycanvas);
+
+	/**
+	 * 清除背景颜色
+	 */
+	webgl.clearColor(0.0,0.0,0.0,1.0);
+	/**
+	 * 清空<canvas>
+	 */
+	webgl.clear(webgl.COLOR_BUFFER_BIT);
+
+	</script>
+</body>
+</html>
