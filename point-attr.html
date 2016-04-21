@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebGL point-attr</title>
+    <script src="js/WebGL_lib.js"></script>
+</head>
+
+<body>
+    <canvas id="mycanvas" width="580" height="300" style="border: 1px solid;"></canvas>
+    <script>
+    /**
+     * 定点着色器
+     */
+    var VSHADER_SOURCE = "attribute vec4 a_Position;\n"+
+        "attribute float f_PointSize;\n"+
+        "void main(){\n" +
+        "	gl_Position = a_Position;\n" +
+        "	gl_PointSize = f_PointSize;\n" +
+        "}";
+    /**
+     * 片元着色器
+     */
+    var FSHADER_SOURCE = "void main(){\n" +
+        "uniform float f_PointSize;\n"+
+        " gl_FragColor = vec4(0.0,0.0,0.0,1.0);\n" +
+        "}";
+        
+    var mycanvas = document.getElementById("mycanvas");
+    var webgl = getWebGLContext(mycanvas);
+
+    initShaders(webgl, VSHADER_SOURCE, FSHADER_SOURCE);
+    /**
+     * getAttribLocation(program, name);
+     *获取由name参数指定的attribute变量的存储地址 
+     *
+     */
+    var a_Position = webgl.getAttribLocation(webgl.program, "a_Position");
+    /**
+     * vertexAttrib[1234]f(location, v0[,v1[,v2[,v3]]);
+     */
+    webgl.vertexAttrib3f(a_Position, 1.0,0.0,0.0);
+
+    var f_PointSize = webgl.getAttribLocation(webgl.program, "f_PointSize");
+
+    webgl.vertexAttrib1f(f_PointSize, 20.0);
+
+    /**
+     * 清除背景颜色
+     */
+    webgl.clearColor(1.0, 1.0, 1.0, 1.0);
+    /**
+     * 清空<canvas>
+     */
+    webgl.clear(webgl.COLOR_BUFFER_BIT);
+
+    webgl.drawArrays(webgl.POINT, 0, 1);
+    </script>
+</body>
+
+</html>

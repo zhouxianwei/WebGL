@@ -28,4 +28,5 @@ function initShaders(webgl, VS_SOURCE, FS_SOURCE) {
     if (!webgl.getProgramParameter(shaderProgram, webgl.LINK_STATUS)) {
         alert("Unable to initialize the shader program.");
     }
+    webgl.program = shaderProgram;
 }
