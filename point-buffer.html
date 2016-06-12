@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebGL point-buffer</title>
+    <script src="js/WebGL_lib.js"></script>
+</head>
+
+<body>
+    <canvas id="mycanvas" width="580" height="300" style="border: 1px solid;"></canvas>
+    <script>
+    /**
+     * 定点着色器
+     */
+    var VSHADER_SOURCE = "attribute vec4 a_Position;\n"+
+        "attribute float f_PointSize;\n"+
+        "void main(){\n" +
+        "	gl_Position = a_Position;\n" +
+        "	gl_PointSize = f_PointSize;\n" +
+        "}";
+    /**
+     * 片元着色器
+     */
+    var FSHADER_SOURCE =  " precision mediump float;\n"+
+        " uniform vec4 u_FragColor;\n"+
+        "void main(){\n" +
+        " gl_FragColor = u_FragColor;\n" +
+        "}";
+        
+    var mycanvas = document.getElementById("mycanvas");
+    var webgl = getWebGLContext(mycanvas);
+
+    initShaders(webgl, VSHADER_SOURCE, FSHADER_SOURCE);
+
+    var vertices = new Float32Array([
+            0.0, 0.0, 0.5, 0.5
+        ]);
+
+    var buffer = webgl.createBuffer();
+    webgl.bindBuffer(webgl.ARRAY_BUFFER, buffer);
+    webgl.bufferData(webgl.ARRAY_BUFFER, vertices, webgl.STATIC_DRAW);
+
+    /**
+     * getAttribLocation(program, name);
+     *获取由name参数指定的attribute变量的存储地址 
+     *
+     */
+    var a_Position = webgl.getAttribLocation(webgl.program, "a_Position");
+    /**
+     * vertexAttrib[1234]f(location, v0[,v1[,v2[,v3]]);
+     */
+    // webgl.vertexAttrib3f(a_Position, 0.0,0.0,0.0);
+    
+    webgl.vertexAttribPointer(a_Position, 2, webgl.FLOAT, false, 0, 0);
+    webgl.enableVertexAttribArray(a_Position);
+
+    var f_PointSize = webgl.getAttribLocation(webgl.program, "f_PointSize");
+
+    webgl.vertexAttrib1f(f_PointSize, 5.0);
+
+    var u_FragColor = webgl.getUniformLocation(webgl.program, "u_FragColor");
+
+    webgl.uniform4f(u_FragColor, 1.0,0.0,0.0,1.0);
+
+
+    /**
+     * 清除背景颜色
+     */
+    webgl.clearColor(1.0, 1.0, 1.0, 1.0);
+    /**
+     * 清空<canvas>
+     */
+    webgl.clear(webgl.COLOR_BUFFER_BIT);
+
+    webgl.drawArrays(webgl.POINTS, 0, 2);
+    </script>
+</body>
+
+</html>

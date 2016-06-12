@@ -30,3 +30,13 @@ function initShaders(webgl, VS_SOURCE, FS_SOURCE) {
     }
     webgl.program = shaderProgram;
 }
+
+function initBuffer(target, bufferData) {
+    /* body... */
+    var buffer = target.createBuffer(),
+        bufferData = new Float32Array(bufferData),
+        BPE = bufferData.BYTES_PER_ELEMENT;
+    target.bindBuffer(target.ARRAY_BUFFER, buffer);
+    target.bufferData(target.ARRAY_BUFFER, bufferData, target.STATIC_DRAW);
+    return BPE;
+}
